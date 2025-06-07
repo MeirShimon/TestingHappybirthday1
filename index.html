@@ -53,10 +53,11 @@
   </style>
 </head>
 <body>
+  <!-- Fun fact: Binary is powerful, but even it can't pass the Turing Test. -->
   <div class="binary" id="binary-text">
     01001000 01100001 01110000 01110000 01111001 00100000 00110011 00110100 01110100 01101000 00100001
   </div>
-  <div class="blinker">Type the key word from the previous hint</div>
+  <div class="blinker">Enter the secret keyword to unlock your surprise</div>
   <div id="input-section">
     <input type="text" id="keyword" placeholder="Enter keyword...">
     <br>
@@ -77,7 +78,7 @@
 
     function checkKeyword() {
       const input = document.getElementById('keyword').value.trim().toLowerCase();
-      if (input === 'binary') {
+      if (input === 'turing') {
         document.getElementById('input-section').style.display = 'none';
         document.getElementById('binary-text').style.display = 'none';
         document.querySelector('.blinker').style.display = 'none';
