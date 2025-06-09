@@ -1,92 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he">
 <head>
-  <meta charset="UTF-8">
-  <title>Happy 34th, Yoni!</title>
-  <style>
-    body {
-      font-family: monospace;
-      background-color: #0e0e0e;
-      color: #00ffcc;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      padding: 20px;
-    }
-    .binary {
-      font-size: 1.5em;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    .blinker {
-      animation: blinker 1s step-start infinite;
-    }
-    @keyframes blinker {
-      50% { opacity: 0; }
-    }
-    #input-section, #result-section {
-      display: none;
-      text-align: center;
-    }
-    input[type="text"] {
-      padding: 10px;
-      font-size: 1em;
-      border-radius: 5px;
-      border: none;
-      margin-bottom: 10px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 1em;
-      background-color: #00ffcc;
-      color: black;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    img {
-      margin-top: 20px;
-      max-width: 300px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>חידת יום הולדת</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+        #secretInput {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-  <!-- Fun fact: Binary is powerful, but even it can't pass the Turing Test. -->
-  <div class="binary" id="binary-text">
-    01001000 01100001 01110000 01110000 01111001 00100000 00110011 00110100 01110100 01101000 00100001
-  </div>
-  <div class="blinker">Enter the secret keyword to unlock your surprise</div>
-  <div id="input-section">
-    <input type="text" id="keyword" placeholder="Enter keyword...">
-    <br>
-    <button onclick="checkKeyword()">Submit</button>
-  </div>
-  <div id="result-section">
-    <h2>🎉 You did it, Engineer! 💻</h2>
-    <p>Debugged your way to a new year.<br>
-    May your code always compile and your coffee never run out.</p>
-    <img src="https://i.imgur.com/XUkh6uw.png" alt="Birthday Cake">
-  </div>
+    <h2>01001101 01100001 01111010 01100001 01101100 00100000 01010100 01101111 01110110 00100000 01000001 01100100 00100000 00110001 00110010 00110000 00100001</h2>
+    <p>יש כאן משהו מעניין... אולי כדאי להסתכל לעומק</p>
 
-  <script>
-    // Show the input after a delay
-    setTimeout(() => {
-      document.getElementById('input-section').style.display = 'block';
-    }, 4000);
+    <input id="secretInput" type="text" placeholder="הכנס את הקוד הסודי">
 
-    function checkKeyword() {
-      const input = document.getElementById('keyword').value.trim().toLowerCase();
-      if (input === 'turing') {
-        document.getElementById('input-section').style.display = 'none';
-        document.getElementById('binary-text').style.display = 'none';
-        document.querySelector('.blinker').style.display = 'none';
-        document.getElementById('result-section').style.display = 'block';
-      } else {
-        alert('Wrong keyword! Try again.');
-      }
-    }
-  </script>
+    <script>
+        // הצג את תיבת הקלט לאחר שהדף נטען
+        document.getElementById("secretInput").style.display = "inline-block";
+
+        // פונקציית השוואה
+        async function hashText(text) {
+            const msgUint8 = new TextEncoder().encode(text);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        const expectedHash = "eb54e45f85e8407420c284e4a940036a657d4ecc9df3124710e291a51d3092a7";
+
+        document.getElementById("secretInput").addEventListener("change", async function () {
+            const userInput = this.value.trim().toLowerCase();
+            const userHash = await hashText(userInput);
+            if (userHash === expectedHash) {
+                document.body.innerHTML = `
+                    <h1>🥳 מזל טוב יוני!</h1>
+                    <p>שתמיד תמשיך להאיר את העולם עם הלב הרחב שלך</p>
+                    <p>יאללה עזוב אותך מברכות</p>
+                    <p>אנחנו נפגשים בבורגרסבר, מרכז טאגור 30, תל אביב-יפו, בשעה 21:00 🍔🍺</p>
+                    <p>מחכה לך!</p>
+                `;
+            } else {
+                alert("נסה שוב...");
+            }
+        });
+    </script>
 </body>
 </html>
